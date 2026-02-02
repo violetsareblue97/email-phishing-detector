@@ -55,7 +55,7 @@ st.markdown("""
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
     }
 
-    /* Sleek Button */
+    /*  Button */
     .stButton>button {
         background-color: #111827 !important;
         color: white !important;
@@ -80,6 +80,7 @@ st.markdown("""
         padding: 24px;
         border-radius: 16px;
         border: 1px solid #f3f4f6;
+        color: #1a1a1a
     }
     </style>
     """, unsafe_allow_html=True)
