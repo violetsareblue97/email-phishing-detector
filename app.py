@@ -3,7 +3,7 @@ import joblib
 import re
 
 # Konfigurasi Halaman
-st.set_page_config(page_title="AI Phishing Detector", page_icon="🛡️")
+st.set_page_config(page_title="Email Phishing Detector")
 
 # Fungsi Pembersih (Harus sama dengan saat latihan)
 def clean_text(text):
@@ -21,7 +21,7 @@ def load_model():
 model = load_model()
 
 # Tampilan UI
-st.title("🛡️ AI Phishing Detector")
+st.title("Email Phishing Detector")
 st.write("Tempel isi email untuk mendeteksi potensi penipuan.")
 
 email_input = st.text_area("Isi Email:", height=200, placeholder="Masukkan teks email di sini...")
@@ -38,13 +38,13 @@ if st.button("Analisis Sekarang"):
         
         # Logika Threshold agar tidak terlalu sensitif
         if skor_phishing > 0.75:
-            st.error(f"⚠️ POSITIF PHISHING (Keyakinan: {skor_phishing*100:.2f}%)")
-            st.write("Indikasi kuat penipuan. Jangan klik link apa pun!")
+            st.error(f"PHISHING (Keyakinan: {skor_phishing*100:.2f}%)")
+            st.write("Positif merupakan email Phishing. Jangan klik link apa pun!")
         elif skor_phishing > 0.40:
-            st.warning(f"🧐 MENCURIGAKAN (Keyakinan: {skor_phishing*100:.2f}%)")
-            st.write("Email ini memiliki pola yang mirip phishing. Tetap waspada.")
+            st.warning(f"MENCURIGAKAN (Keyakinan: {skor_phishing*100:.2f}%)")
+            st.write("Waspada! email ini memiliki pola yang mirip phishing.")
         else:
-            st.success(f"✅ AMAN (Skor Phishing: {skor_phishing*100:.2f}%)")
+            st.success(f"AMAN (Skor Phishing: {skor_phishing*100:.2f}%)")
             st.write("Email ini terlihat seperti korespondensi normal.")
     else:
         st.warning("Mohon masukkan teks terlebih dahulu.")
