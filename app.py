@@ -1,87 +1,106 @@
 import streamlit as st
 import joblib
 import re
+import unicodedata
 
-# 1. Konfigurasi Halaman & UI Styling
-st.set_page_config(page_title="Email Secure+", layout="wide")
+# 1. CSS untuk Desain Sleek & Modern
+st.set_page_config(page_title="SecureMail AI", layout="centered")
 
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
     
     .stApp {
-        background-color: #f8f9fa;
-        font-family: 'Inter', sans-serif;
-        color: #1a1a1a;
+        background-color: #ffffff;
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Navigasi Minimalis */
-    .nav-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 8%;
-        background: white;
-        border-bottom: 1px solid #eee;
+    /* Minimalist Header */
+    .main-header {
+        text-align: center;
+        padding: 60px 0 20px 0;
     }
-    .brand { font-weight: 800; font-size: 22px; color: #10b981; }
-
-    /* Judul Utama */
-    .headline {
-        font-size: 64px;
+    
+    .brand-name {
         font-weight: 800;
-        line-height: 1;
-        margin-bottom: 25px;
-        color: #1a1a1a;
-        letter-spacing: -2px;
+        font-size: 14px;
+        letter-spacing: 3px;
+        color: #10b981;
+        text-transform: uppercase;
+        margin-bottom: 10px;
     }
 
-    /* Kotak Input Teks Pop */
+    .main-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -1px;
+        line-height: 1.2;
+    }
+
+    /* Input Area */
     .stTextArea textarea {
         border-radius: 16px !important;
-        border: 1px solid #e5e7eb !important;
-        padding: 20px !important;
-        background: white !important;
+        border: 1px solid #f3f4f6 !important;
+        padding: 24px !important;
+        background: #f9fafb !important;
         font-size: 16px !important;
-        color: #1a1a1a;
-        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05) !important;
+        color: #374151 !important;
+        transition: all 0.3s ease;
     }
 
-    /* Tombol Analisis */
+    .stTextArea textarea:focus {
+        border-color: #10b981 !important;
+        background: #ffffff !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Sleek Button */
     .stButton>button {
-        background-color: #10b981 !important;
+        background-color: #111827 !important;
         color: white !important;
-        border: none !important;
-        padding: 15px 0px !important;
+        padding: 14px 28px !important;
         border-radius: 12px !important;
-        font-weight: 700 !important;
-        font-size: 16px !important;
-        width: 100%;
-        transition: 0.3s ease;
-    }
-    .stButton>button:hover {
-        background-color: #059669 !important;
-        transform: translateY(-2px);
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        border: none !important;
+        width: 100% !important;
+        margin-top: 20px;
+        transition: all 0.2s ease;
     }
 
-    /* Card Ilustrasi */
-    .card-right {
-        background: #10b981;
-        padding: 80px 40px;
-        border-radius: 40px;
-        text-align: center;
-        color: white;
-        box-shadow: 30px 30px 0px #d1fae5;
+    .stButton>button:hover {
+        background-color: #10b981 !important;
+        transform: translateY(-1px);
+    }
+
+    /* Result Cards */
+    .result-container {
+        margin-top: 40px;
+        padding: 24px;
+        border-radius: 16px;
+        border: 1px solid #f3f4f6;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Logika Pemrosesan (SAMA PERSIS DENGAN PERMINTAAN ANDA)
-def clean_text(text):
-    text = str(text).lower()
+# 2. Logika Akurasi Tinggi (Advanced Preprocessing)
+def clean_text_accurate(text):
+    # Normalisasi karakter unik (Unicode) agar teks aneh bisa dibaca
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
+    text = text.lower()
+    
+    # Menjaga konteks URL dan Email
     text = re.sub(r'http\S+|www\S+|https\S+', 'link_url', text)
     text = re.sub(r'\S+@\S+', 'email_address', text)
-    text = re.sub(r'[^a-zA-Z\s]', '', text)
+    
+    # Urgency Tagging untuk deteksi pola tekanan
+    urgency_list = ['action required', 'pending', 'selected', 'reward', 'confirm', 'immediately']
+    for word in urgency_list:
+        text = text.replace(word, f' urgent_{word} ')
+        
+    text = re.sub(r'[^a-zA-Z\s]', ' ', text)
+    text = " ".join(text.split())
     return text
 
 @st.cache_resource
@@ -90,57 +109,41 @@ def load_model():
 
 model = load_model()
 
-# 3. Bar Judul
+# 3. Tampilan UI Sleek
 st.markdown("""
-    <div class="nav-bar">
-        <div class="brand">EMAIL SECURE+</div>
-        <div style="display: flex; gap: 40px; font-size: 14px; font-weight: 600; color: #4b5563;">
-            <span>Features</span><span>Support</span><span>Dashboard</span>
-        </div>
+    <div class="main-header">
+        <div class="brand-name">Secure Analytics</div>
+        <div class="main-title">Deteksi Phishing<br>Berbasis AI</div>
     </div>
     """, unsafe_allow_html=True)
 
-st.markdown("<br><br>", unsafe_allow_html=True)
+# Container Tengah
+col1, col2, col3 = st.columns([0.1, 0.8, 0.1])
 
-# 4. Layout Utama (Hero Section)
-col_left, col_right = st.columns([1.2, 1], gap="large")
-
-with col_left:
-    st.markdown('<div class="headline">TOTAL<br>INBOX<br>PROTECTED.</div>', unsafe_allow_html=True)
-    st.write("Analisis keamanan email Anda secara instan menggunakan model AI yang transparan dan akurat.")
+with col2:
+    email_input = st.text_area("", height=220, placeholder="Tempel konten email yang ingin Anda periksa...")
     
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Text Area
-    email_input = st.text_area("Isi Email:", height=250, label_visibility="collapsed", placeholder="Enter your email content here...")
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    if st.button("ANALISIS SEKARANG"):
+    if st.button("Analisis Keamanan"):
         if email_input:
-            cleaned_input = clean_text(email_input)
+            # Eksekusi Logika Akurat
+            cleaned = clean_text_accurate(email_input)
+            prob = model.predict_proba([cleaned])[0]
+            skor = prob[1]
             
-            # Ambil probabilitas (Skor keyakinan)
-            prob = model.predict_proba([cleaned_input])[0]
-            skor_phishing = prob[1] # Probabilitas label 1 (Phishing)
+            st.markdown('<div class="result-container">', unsafe_allow_html=True)
             
-            st.markdown("---")
-            
-            # Logika Threshold (Sesuai kode Anda)
-            if skor_phishing > 0.75:
-                st.error(f"Status: Positif Phishing ({skor_phishing*100:.2f}%)")
-                st.write("Indikasi kuat penipuan. Jangan klik link apa pun!")
-            elif skor_phishing > 0.40:
-                st.warning(f"Status: Mencurigakan ({skor_phishing*100:.2f}%)")
-                st.write("Email ini memiliki pola yang mirip phishing. Tetap waspada.")
+            if skor > 0.65:
+                st.error(f"Peringatan: Terdeteksi Phishing ({skor*100:.1f}%)")
+                st.markdown("<small>Ditemukan manipulasi teks atau indikasi penipuan yang kuat.</small>", unsafe_allow_html=True)
+            elif skor > 0.35:
+                st.warning(f"Perhatian: Email Mencurigakan ({skor*100:.1f}%)")
+                st.markdown("<small>Pola email ini menyerupai teknik phishing umum. Harap waspada.</small>", unsafe_allow_html=True)
             else:
-                st.success(f"Status: Aman ({skor_phishing*100:.2f}%)")
-                st.write("Email ini terlihat seperti korespondensi normal.")
+                st.success(f"Aman: Email Terverifikasi ({skor*100:.1f}%)")
+                st.markdown("<small>Tidak ditemukan tanda-tanda ancaman siber yang mencurigakan.</small>", unsafe_allow_html=True)
+                
+            st.markdown('</div>', unsafe_allow_html=True)
         else:
-            st.warning("Mohon masukkan teks terlebih dahulu.")
+            st.info("Silakan masukkan teks email terlebih dahulu.")
 
-# 5. Share Functionality di Sidebar
-with st.sidebar:
-    st.write("### Share Application")
-    if st.button("Copy App Link"):
-        st.code("https://share.streamlit.io/your-link")
+st.markdown("<br><br><p style='text-align:center; color:#9ca3af; font-size:12px;'>Powered by AI Security Engine v2.5</p>", unsafe_allow_html=True)
