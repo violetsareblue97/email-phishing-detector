@@ -4,7 +4,7 @@ import joblib
 # Memuat otak AI yang kita buat di Colab
 model = joblib.load("phishing_model.joblib")
 
-st.set_page_config(page_title="AI Phishing Detector", icon="🛡️")
+st.set_page_config(page_title="AI Phishing Detector", page_icon="🛡️")
 st.title("🛡️ AI Phishing Email Detector")
 st.write("Gunakan AI untuk mendeteksi apakah email ini berbahaya atau aman.")
 
