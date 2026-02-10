@@ -103,7 +103,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# Logika Tambahan untuk Akurasi (Identity Check)
 def check_domain_safety(sender_input):
     trusted = ['google.com', 'apple.com', 'microsoft.com', 'accounts.google.com']
     try:
@@ -113,7 +112,6 @@ def check_domain_safety(sender_input):
     except: pass
     return False
 
-# Logika Akurasi Teks
 def clean_text_accurate(text):
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8')
     text = text.lower()
@@ -132,7 +130,7 @@ def load_model():
 
 model = load_model()
 
-# Header
+#Header
 st.markdown("""
     <div class="main-header">
         <div class="brand-name">Email Safe+</div>
@@ -140,14 +138,14 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# Input Alamat Pengirim
+#form isi
 st.markdown('<p class="input-label">Alamat Pengirim (contoh: abc@gmail.com)</p>', unsafe_allow_html=True)
-sender_input = st.text_input(label="", label_visibility="collapsed", placeholder="Sangat disarankan isi untuk akurasi maksimal...")
+sender_input = st.text_input(label="", label_visibility="collapsed", placeholder="Alamat email pengirim...")
 
-# Input Isi Email
 st.markdown('<p class="input-label">Isi badan email:</p>', unsafe_allow_html=True)
 email_input = st.text_area(label="", label_visibility="collapsed", height=220, placeholder="Tempel isi badan email yang ingin diperiksa disini...")
 
+#button
 if st.button("Analisis Keamanan"):
     if email_input:
         cleaned = clean_text_accurate(email_input)
@@ -173,7 +171,7 @@ if st.button("Analisis Keamanan"):
     else:
         st.info("Silakan masukkan teks email terlebih dahulu.")
 
-# SIDENOTE
+#informasi
 st.markdown("""
     <div class="info-container" style="margin-top:40px; padding:20px; border-left:4px solid #10b981; background:#111111;">
         <div class="info-title" style="color:white; font-weight:bold;">⚠️ Tidak bisa menyalin teks email?</div>
