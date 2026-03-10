@@ -143,7 +143,7 @@ model = load_model()
 
 # ─── HERO ─────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div style="position:relative;overflow:hidden;padding:80px 48px 60px;text-align:center;">
+<div style="position:relative;overflow:hidden;padding:30px 48px 60px;text-align:center;">
 
   <!-- Colorful blobs -->
   <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
@@ -163,12 +163,13 @@ st.markdown("""
   <h1 style="
     position:relative;z-index:2;
     font-size:clamp(64px,10vw,120px);
+    font-size:150px;
     font-weight:800;
     letter-spacing:-4px;
     line-height:.88;
     color:#0a0f0a;
     margin-bottom:0;
-  ">Email<br/>
+  ">Email
     <span style="
       font-family:'Instrument Serif',serif;
       font-style:italic;
@@ -180,8 +181,8 @@ st.markdown("""
   <!-- Sub -->
   <p style="
     position:relative;z-index:2;
-    margin:28px auto 0;
-    max-width:420px;
+    margin:5px auto 0;
+    max-width:full;
     font-size:16px;
     color:#5a6b5a;
     line-height:1.75;
@@ -194,7 +195,7 @@ st.markdown("""
 # ─── INPUT FORM ───────────────────────────────────────────────────────────────
 st.markdown("""
 <div style="
-  max-width:620px;margin:0 auto;padding:0 24px 8px;
+  max-width:full;margin:0 auto;padding:0 24px 8px;
 ">
   <p style="font-size:12px;font-weight:700;letter-spacing:.08em;
     text-transform:uppercase;color:#8b9a8b;margin-bottom:6px;">
