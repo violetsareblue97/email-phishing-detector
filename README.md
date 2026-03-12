@@ -1,7 +1,3 @@
-Here is the refined README in professional, standard English. I have translated the sections while maintaining the technical structure of your project.
-
----
-
 # Email Secure+
 
 A web-based application designed to detect phishing emails using Machine Learning and real-time DNS verification.
