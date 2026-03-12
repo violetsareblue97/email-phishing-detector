@@ -1,72 +1,92 @@
-# Email Safe+
-Aplikasi web untuk mendeteksi email phishing menggunakan Machine Learning dan verifikasi DNS secara real-time.
-
-Live demo: https://emailsecure.streamlit.app
+Here is the refined README in professional, standard English. I have translated the sections while maintaining the technical structure of your project.
 
 ---
 
-## Cara Kerja
+# Email Secure+
 
-**1. Analisis Teks (NLP)**
-Model TF-IDF + Logistic Regression menganalisis pola teks pada badan email. Model dilatih dengan 150.000 sampel email (phishing dan legitimate) dari dataset publik Kaggle.
+A web-based application designed to detect phishing emails using Machine Learning and real-time DNS verification.
 
-**2. Verifikasi Domain via DNS**
-Jika alamat pengirim diisi, sistem melakukan DNS lookup untuk memeriksa keberadaan record SPF dan DMARC pada domain pengirim. Hasil lookup digunakan untuk menyesuaikan skor risiko — domain dengan proteksi penuh mendapat pengurangan skor, domain tanpa SPF/DMARC mendapat kenaikan skor.
+**Live demo:** [https://emailsecure.streamlit.app](https://emailsecure.streamlit.app)
 
-**3. Skor Akhir**
-Skor final = skor model × multiplier DNS, dikategorikan ke tiga level:
-- **≥ 65%** → Terdeteksi Phishing
-- **40–64%** → Email Mencurigakan
-- **< 40%** → Email Terlihat Aman
+---
+
+## How It Works
+
+**1. Text Analysis (NLP)**
+The model utilizes a TF-IDF and Logistic Regression pipeline to analyze patterns in email body text. It was trained on 150,000 public dataset entries from Kaggle, encompassing both phishing and legitimate emails.
+
+**2. Domain Verification via DNS**
+When a sender's email address is provided, the system performs a DNS lookup to check for existing SPF and DMARC records. These results are used to adjust the risk score—domains with full protection receive a score reduction, while those without SPF/DMARC records receive a risk premium.
+
+**3. Final Risk Scoring**
+The final score is calculated as: `Model Score × DNS Multiplier`. Results are categorized into three levels:
+
+* **≥ 65%** → Phishing Detected
+* **40–64%** → Suspicious Email
+* **< 40%** → Safe
+
+---
+
+## 🛠️ Challenges & Debugging
+
+Building this project involved overcoming several technical hurdles that provided valuable insights into software development and system integration:
+
+* **Version Control:** Resolved `non-fast-forward` errors arising from conflicts between manual web uploads and local Git commits. Implemented proper Git branching and synchronization strategies to maintain a clean, professional repository history.
+* **Dependency Management:** Diagnosed `ImportError` and `ModuleNotFoundError` issues by isolating the development environment using `.venv` and ensuring the `requirements.txt` file accurately reflected necessary packages, such as `dnspython` and `google-generativeai`.
+* **API Rate Limit Handling:** Encountered `429 RESOURCE_EXHAUSTED` errors when querying external APIs. Implemented error handling with `try-except` blocks to provide graceful user feedback and prevent application crashes.
+* **Environment Configuration:** Debugged Python interpreter pathing issues within VS Code to ensure consistent application behavior across local virtual environments and production paths.
 
 ---
 
 ## Dataset
 
-- Sumber: [Kaggle: Phishing Email Dataset](https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset)
-- Ukuran: 150.000 baris (77.449 phishing, 72.551 legitimate)
-- Kolom yang dipakai: `text_combined` (teks email), `label` (0/1)
+* **Source:** [Kaggle: Phishing Email Dataset](https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset)
+* **Size:** 150,000 rows (77,449 phishing, 72,551 legitimate)
+* **Features Used:** `text_combined` (email text), `label` (0/1)
 
 ---
 
-## Model
+## Model Pipeline
 
 ```
 Pipeline:
   TfidfVectorizer(max_features=15000, ngram_range=(1,3), stop_words='english')
   LogisticRegression(C=0.1, class_weight='balanced', max_iter=1000)
+
 ```
 
-Model disimpan sebagai `phishing_model.joblib`. Preprocessing di `app.py` menggunakan fungsi `clean_text` yang identik dengan yang dipakai saat training.
+The model is serialized as `phishing_model.joblib`. The preprocessing logic in `app.py` uses a `clean_text` function identical to the one used during training to ensure data consistency.
 
 ---
 
-## Cara Menjalankan
+## Getting Started
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+
 ```
 
-Atau buka langsung di: https://emailsecure.streamlit.app
+Or visit the live application: [https://emailsecure.streamlit.app](https://emailsecure.streamlit.app)
 
 ---
 
-## Struktur File
+## File Structure
 
 ```
-├── app.py                        # aplikasi Streamlit
-├── email_phishing_training.ipynb # notebook training
-├── phishing_model.joblib         # model hasil training
-├── requirements.txt
+├── app.py                      # Streamlit application
+├── email_phishing_training.ipynb # Training notebook
+├── phishing_model.joblib         # Trained model
+├── requirements.txt            # Project dependencies
 └── README.md
+
 ```
 
 ---
 
 ## Tech Stack
 
-- Python, Streamlit
-- Scikit-learn (TF-IDF + Logistic Regression)
-- dnspython (DNS lookup SPF/DMARC)
-- Joblib (model serialization)
+* **Frontend/Backend:** Python, Streamlit
+* **Machine Learning:** Scikit-learn (TF-IDF + Logistic Regression)
+* **Network Utilities:** dnspython (DNS lookup for SPF/DMARC)
+* **Serialization:** Joblib
